@@ -10,7 +10,7 @@ app.use(express.static("public"));
 // Route to get top stories from the New York Times API
 app.get("/api/popular-articles", async (req, res) => {
   try {
-    // Replace 'YOUR_NYT_API_KEY' with your actual New York Times API key
+
     const apiKey = "PTptKAkW811u4DGCY9hS2gip2WgEFLsG";
     const response = await axios.get(
       `https://api.nytimes.com/svc/topstories/v2/us.json?api-key=${apiKey}`
