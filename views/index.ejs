@@ -4,11 +4,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/css/styles.css">
+
   <style>
    
     #wordCloud a {
       text-decoration: none;
+    }
+
+   
+    #wordCloud {
+      display: flex;
+      flex-wrap: wrap;
+      max-width: 300px; 
+      margin: 50px auto; 
     }
   </style>
   <title>Word Cloud Project</title>
@@ -19,41 +27,32 @@
   <script src="https://d3js.org/d3.v6.min.js"></script>
   <script>
     // Fetch top stories from the New York Times API
-    fetch('/api/popular-articles')
+    fetch('/api/word-cloud')
       .then(response => response.json())
       .then(data => {
-        // Assuming 'data.articles' is an array of article objects with 'title' and 'url'
-        const articles = data.articles;
+   
+        const words = data.words;
 
-        // Generate two rows of clickable titles without underlines using D3.js
-        const rowHeight = 30;
-        const fontSizeScale = d3.scaleLinear().domain([1, 10]).range([14, 24]);
-
-        // Generate clickable titles without underlines
+       
         d3.select('#wordCloud')
           .selectAll('a')
-          .data(articles)
+          .data(words)
           .enter()
           .append('a')
           .attr('href', d => d.url)
           .attr('target', '_blank') // Open link in a new tab
           .append('span')
-          .text(d => d.title)
-          .style('font-size', d => `${fontSizeScale(Math.random() * 10)}px`)
+          .text(d => d.word)
+          .style('font-size', d => `${d.count * 5}px`) // Adjust the multiplier as needed
           .style('color', getRandomColor)
-          .style('margin-right', '10px') // Adjust spacing between titles
-          .style('margin-bottom', (d, i) => (i % 2 === 0 ? '20px' : '0')); // Adjust spacing between rows
+          .style('margin-right', '0.2rem')
+
       })
       .catch(error => console.error('Error fetching top stories:', error));
 
     // Function to generate a random color
     function getRandomColor() {
-      const letters = '0123456789ABCDEF';
-      let color = '#';
-      for (let i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
-      }
-      return color;
+      return '#' + Math.floor(Math.random()*16777215).toString(16);
     }
   </script>
 </body>
