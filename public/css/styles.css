@@ -8,6 +8,15 @@ body {
   background-color: black;
 }
 
+#wordCloud a {
+  text-decoration: none;
+}
+
 #wordCloud {
   text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 300px;
+  height: 100vh;
+  margin: 1rem auto;
 }
